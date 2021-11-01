@@ -1,0 +1,6 @@
+
+evalutils==0.2.4
+opencv-python
+scikit-learn==0.20.2
+scipy==1.2.1
+scikit-image==0.17.2
