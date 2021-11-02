@@ -84,7 +84,7 @@ and implement a function called [*predict*](https://github.com/node21challenge/n
 to generate nodules on a given CXR image. 
 
 The function [*predict*](https://github.com/node21challenge/node21_generation_baseline/blob/main/process.py#L44) is run by 
-evalutils when the [process](https://github.com/node21challenge/node21_generation_baseline/blob/main/process.py#L108) function is called.
+evalutils when the [process](https://github.com/node21challenge/node21_generation_baseline/blob/main/process.py#L95) function is called.
 
 💡 To test this container locally without a docker container, you should the **execute_in_docker** flag to 
 False - this sets all paths to relative paths. You should set it back to **True** when you want to switch back to the docker container setting.
@@ -93,7 +93,7 @@ False - this sets all paths to relative paths. You should set it back to **True*
 For the sake of time efficiency in the evaluation process of [NODE21](https://node21.grand-challenge.org/), 
 the submitted algorithms to [NODE21](https://node21.grand-challenge.org/) are expected to operate on a 3D image which consists of multiple CXR images 
 stacked together. The algorithm should go through the slices (CXR images) one by one and process them individually, 
-as shown in [*predict*](https://github.com/node21challenge/node21_generation_baseline/blob/main/process.py#L62). 
+as shown in [*predict*](https://github.com/node21challenge/node21_generation_baseline/blob/main/process.py#L44). 
 When outputting results, the third coordinate of the bounding box in nodules.json file is used to identify the CXR from the stack. 
 If the algorithm processes the first CXR image in 3D volume, the z coordinate output should be 0, if it processes the third CXR image, it should be 2, etc. 
 
