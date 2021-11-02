@@ -8,11 +8,27 @@ It automatically generates template scripts for your container files, and create
 We adapted this template code for our algorithm by following the
 [general tutorial on how to create a grand-challenge algorithm](https://grand-challenge.org/blogs/create-an-algorithm/). 
 
-Before diving into the details of this template code we recommend readers have the pre-requisites installed and have cloned this repository as described on the 
-[main README page](https://github.com/DIAGNijmegen/node21), and that they have gone through 
-the [general tutorial on how to create a grand-challenge algorithm](https://grand-challenge.org/blogs/create-an-algorithm/). 
+Before diving into the details of this template code we recommend readers have the pre-requisites installed and have cloned this repository as described below:
 
-The details of how to build and submit the baseline NODE21 nodule generation algorithm using our template code are described below.
+## Prerequisites
+* [Docker](https://www.docker.com/get-started)
+* [evalutils](https://github.com/comic/evalutils)
+
+The code in this repository is based on docker and evalutils.  
+
+**Windows Tip**: For participants using Windows, it is highly recommended to 
+install [Windows Subsystem for Linux (WSL)](https://docs.microsoft.com/en-us/windows/wsl/install-win10) 
+to work with Docker on a Linux environment within Windows. Please make sure to install **WSL 2** by following the instructions on the same page. 
+The alternative is to work purely out of Ubuntu, or any other flavor of Linux.
+Also, note that the basic version of WSL 2 does not come with GPU support. 
+Please watch the [official tutorial](https://www.youtube.com/watch?v=PdxXlZJiuxA) 
+by Microsoft on installing WSL 2 with GPU support.
+
+Please clone the repository as follows:
+```python
+git clone git@github.com:node21challenge/node21_generation_baseline.git
+```
+
 
 ##### Table of Contents  
 [An overview of the baseline algorithm](#algorithm)  
@@ -23,7 +39,7 @@ The details of how to build and submit the baseline NODE21 nodule generation alg
 <a name="algorithm"/>
 
 ## An overview of the baseline algorithm
-The baseline nodule generation algorithm is based on the [paper](https://geertlitjens.nl/publication/litj-10-a/litj-10-a.pdf) published by Litjens et al.. The main file executed by the docker container is [*process.py*](https://github.com/DIAGNijmegen/node21/blob/main/algorithms/nodulegeneration/process.py). 
+The baseline nodule generation algorithm is based on the [paper](https://geertlitjens.nl/publication/litj-10-a/litj-10-a.pdf) published by Litjens et al.. The main file executed by the docker container is [*process.py*](https://github.com/node21challenge/node21_generation_baseline/blob/main/process.py). 
 
 
 ## Input and output interfaces
@@ -63,16 +79,12 @@ An example nodules.json file is as follows:
 }
 ```
 The implementation of the algorithm inference in process.py is straightforward (and must be followed by participants creating their own algorithm): 
-load the nodules.json file in the [*__init__*](https://github.com/DIAGNijmegen/node21/blob/main/algorithms/nodulegeneration/process.py#L25) function of the class, 
-and implement a function called [*predict*](https://github.com/DIAGNijmegen/node21/blob/main/algorithms/nodulegeneration/process.py#L44) 
+load the nodules.json file in the [*__init__*](https://github.com/node21challenge/node21_generation_baseline/blob/main/process.py#L25) function of the class, 
+and implement a function called [*predict*](https://github.com/node21challenge/node21_generation_baseline/blob/main/process.py#L44) 
 to generate nodules on a given CXR image. 
 
-The function [*predict*](https://github.com/DIAGNijmegen/node21/blob/main/algorithms/nodulegeneration/process.py#L44) is run by 
-evalutils when the [process](https://github.com/DIAGNijmegen/node21/blob/main/algorithms/nodulegeneration/process.py#L108) function is called. 
-
-📌 NOTE: In order to run this codebase, nodule_patches folder should contain all the ct nodule patches and corresponding segmentation maps, which are provided in the zenodo release of NODE21.
-     (Here we provide just one patch and its segmentation as an example.)
-     If you would like to run this algorithm, please copy all the provided ct nodule patches and segmentations together in to the nodule_patches folder. 
+The function [*predict*](https://github.com/node21challenge/node21_generation_baseline/blob/main/process.py#L44) is run by 
+evalutils when the [process](https://github.com/node21challenge/node21_generation_baseline/blob/main/process.py#L108) function is called.
 
 💡 To test this container locally without a docker container, you should the **execute_in_docker** flag to 
 False - this sets all paths to relative paths. You should set it back to **True** when you want to switch back to the docker container setting.
@@ -81,7 +93,7 @@ False - this sets all paths to relative paths. You should set it back to **True*
 For the sake of time efficiency in the evaluation process of [NODE21](https://node21.grand-challenge.org/), 
 the submitted algorithms to [NODE21](https://node21.grand-challenge.org/) are expected to operate on a 3D image which consists of multiple CXR images 
 stacked together. The algorithm should go through the slices (CXR images) one by one and process them individually, 
-as shown in [*predict*](https://github.com/DIAGNijmegen/node21/blob/main/algorithms/nodulegeneration/process.py#L62). 
+as shown in [*predict*](https://github.com/node21challenge/node21_generation_baseline/blob/main/process.py#L62). 
 When outputting results, the third coordinate of the bounding box in nodules.json file is used to identify the CXR from the stack. 
 If the algorithm processes the first CXR image in 3D volume, the z coordinate output should be 0, if it processes the third CXR image, it should be 2, etc. 
 
@@ -126,7 +138,12 @@ Please update your ```test/expected_output.json``` according to your algorithm r
    ```python
     docker save nodulegenerator | gzip -c > nodulegenerator.tar.gz
    ```
-     
+   
+### Submit your algorithm
+Details of how to create an algorithm on grand-challenge and submit it to the node21 challenge will be added here soon.  
+Please make sure all steps described above work as expected before proceeding.
+
+<!---  
  <a name="submit"/>
 
     
@@ -136,30 +153,30 @@ Please update your ```test/expected_output.json``` according to your algorithm r
 
 1. In order to submit your docker container, you first have to create an algorithm entry for your docker container [here](https://grand-challenge.org/algorithms/create/).
    * Please choose a title for your algorithm and add a (squared image) logo. Enter the modalities and structure information as in the example below.
-      ![alt text](https://github.com/DIAGNijmegen/node21/blob/main/images/gen_algorithm_description.PNG)
+      ![alt text](/images/gen_algorithm_description.PNG)
 
     * Scrolling down the page, you will see that you need to enter further information:
     * Enter the URL of your GitHub repository which must be public, contain all your code and an [Apache 2.0 license](https://www.apache.org/licenses/LICENSE-2.0). When entering the repo name in algorithm-creation do not enter a full URL, only the part that comes after github.com/. For example if your github url is https://github.com/ecemlago/node21_generation_baseline/, please enter the field as *ecemlago/node21_generation_baseline*.
     *  For the interfaces, please select *Generic Medical Image (Image)* and *Nodules (Multiple 2D Bounding Boxes)* as Inputs and *Generic Medical Image (Image)* as Outputs. 
     *  Do not forget to pick the workstation as *Viewer CIRRUS Core (Public)*. 
-      ![alt text](https://github.com/ecemlago/node21_generation_baseline/blob/master/images/alg_interface_gen.PNG)
+      ![alt text](images/alg_interface_gen.PNG)
   
 2. After saving it, you can either upload your docker container (.tar.gaz) or you can let grand-challenge build your algorithm container from your github repository.
 
      OPTION 1: If you would like to upload your docker container directly, please click on "upload a Container" button, and upload your container. You can also later overwrite your container by uploading a new one. That means that when you make changes to your algorithm, you could overwrite your container and submit the updated version of your algorithm to node21:
-    ![alt text](https://github.com/DIAGNijmegen/node21/blob/main/images/gen_algorithm_uploadcontainer.PNG)
+    ![alt text](images/gen_algorithm_uploadcontainer.PNG)
     
     OPTION 2: If you would like to submit your repository and let grand-challenge build the docker image for you, please click on "Link github repo" and select your repository to give repository access to grand-challenge to build your algorithm. Once this is done, you should tag the repo to kick off the build process. Please bear in mind that, the root of the github repository must contain the dockerfile, the licence, the gitattributes in order to build the image for you. Further, you must have admin rights to the repository so that you can give permission for GC to install an app there.
-    ![alt text](https://github.com/ecemlago/node21_generation_baseline/blob/master/images/automated_build_gen.PNG)
+    ![alt text](images/automated_build_gen.PNG)
 
 3. OPTIONAL: Please note that it can take a while (several minutes) until the container becomes active. Once it becomes active, we suggest that you try out the algorithm to verify everything works as expected. For this, please click on *Try-out Algorithm* tab, and upload a *Generic Medical Image* and paste your *nodules.json* file. To paste your nodules.json content, please click on tree and select "code" then paste the content of your json file. You could upload the image and nodules.json given in the test folder which represents how test data would look like during evaluation.
-  ![alt text](https://github.com/DIAGNijmegen/node21/blob/main/images/gen_algorithm_tryout.PNG)
+  ![alt text](images/gen_algorithm_tryout.PNG)
 4. OPTIONAL: You could look at the results of your algorithm: click on the *Results*, and *Open Result in Viewer* to visualize the results. You would be directed to CIRRUS viewer, and the results will be visualized with the predicted bounding boxes on chest x-ray images as below. You could move to the next and previous slice (slice is a chest x-ray in this case) by clicking on the up and down arrow in the keyboard.
-    ![alt text](https://github.com/DIAGNijmegen/node21/blob/main/images/gen_algorithm_results.PNG)
+    ![alt text](images/gen_algorithm_results.PNG)
 
 5. Go to the [NODE21](https://node21.grand-challenge.org/evaluation/generation/submissions/create/) submission page, and submit your solution to the generation track by choosing your algorithm.
-   ![alt text](https://github.com/DIAGNijmegen/node21/blob/main/images/gen_alg_submission.PNG)
-    
+   ![alt text](images/gen_alg_submission.PNG)
+-->
 
 
 
