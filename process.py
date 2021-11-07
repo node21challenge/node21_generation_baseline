@@ -61,7 +61,7 @@ class Nodulegeneration(SegmentationAlgorithm):
                 boxes = nodule['corners']
                 # no spacing info in GC with 3D version
                 #x_min, y_min, x_max, y_max = boxes[2][0]/spacing_x, boxes[2][1]/spacing_y, boxes[0][0]/spacing_x, boxes[0][1]/spacing_y
-                x_min, y_min, x_max, y_max = boxes[2][0], boxes[2][1], boxes[0][0], boxes[0][1]
+                y_min, x_min, y_max, x_max = boxes[2][0], boxes[2][1], boxes[0][0], boxes[0][1]
 
                 x_min, y_min, x_max, y_max = int(x_min), int(y_min), int(x_max), int(y_max)
 
