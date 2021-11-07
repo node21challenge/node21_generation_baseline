@@ -102,6 +102,5 @@ ENV/
 .mypy_cache/
 # Pycharm
 .idea/
-test/
 small_test/
 non-necessary/
