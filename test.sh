@@ -14,12 +14,12 @@ docker run --rm \
 
 docker run --rm \
         -v nodulegeneration-output:/output/ \
-        python:3.7-slim cat /output/results.json | python -m json.tool
+        python:3.7-slim cat /output/results.json | python3 -m json.tool
 
 docker run --rm \
         -v nodulegeneration-output:/output/ \
         -v $SCRIPTPATH/test/:/input/ \
-        python:3.7-slim python -c "import json, sys; f1 = json.load(open('/output/results.json')); f2 = json.load(open('/input/expected_output.json')); sys.exit(f1 != f2);"
+        python:3.7-slim python3 -c "import json, sys; f1 = json.load(open('/output/results.json')); f2 = json.load(open('/input/expected_output.json')); sys.exit(f1 != f2);"
 
 if [ $? -eq 0 ]; then
     echo "Tests successfully passed..."
