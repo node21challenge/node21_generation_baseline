@@ -20,7 +20,7 @@ import os
 
 # This parameter adapts the paths between local execution and execution in docker. You can use this flag to switch between these two modes.
 # For building your docker, set this parameter to True. If False, it will run process.py locally for test purposes.
-execute_in_docker = True
+execute_in_docker = False
 class Nodulegeneration(SegmentationAlgorithm):
     def __init__(self):
         super().__init__(
@@ -69,7 +69,7 @@ class Nodulegeneration(SegmentationAlgorithm):
                 required_diameter = max(x_max-x_min, y_max-y_min)
                 ct_names = pd_data[pd_data['diameter']>int((required_diameter/5))]['img_name'].values
                 if len(ct_names)<1:
-                    pd_data[pd_data['diameter']>int((required_diameter/10))]['img_name'].values
+                    ct_names = pd_data[pd_data['diameter']>int((required_diameter/10))]['img_name'].values
                     
                 index_ct = random.randint(0, len(ct_names)-1)
                 path_nodule = '/opt/algorithm/nodule_patches/' if execute_in_docker else 'nodule_patches/'
