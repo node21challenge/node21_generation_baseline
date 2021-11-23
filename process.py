@@ -20,7 +20,7 @@ import os
 
 # This parameter adapts the paths between local execution and execution in docker. You can use this flag to switch between these two modes.
 # For building your docker, set this parameter to True. If False, it will run process.py locally for test purposes.
-execute_in_docker = False
+execute_in_docker = True
 class Nodulegeneration(SegmentationAlgorithm):
     def __init__(self):
         super().__init__(
