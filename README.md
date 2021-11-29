@@ -176,7 +176,7 @@ Please make sure all steps described above work as expected before proceeding.  
     Your repo will be listed in the dropdown box only if it has the Grand-Challenge app already installed.  
     Usually this is not the case to begin with, so you should click on "link a new Github Repo".  
     This will guide you through the installation of the Grand-challenge app in your repository.
-    ![alt text](images/add_repo_det.png)
+    ![alt text](images/add_repo_gen.png)
     
     After the installation of the app in your repository is complete you should be automatically returned to the Grand Challenge page shown above, 
     where you will find your repository now in the dropdown list.
