@@ -140,46 +140,77 @@ Please update your ```test/expected_output.json``` according to your algorithm r
     docker save nodulegenerator | gzip -c > nodulegenerator.tar.gz
    ```
    
-### Submit your algorithm
-Details of how to create an algorithm on grand-challenge and submit it to the node21 challenge will be added here soon.  
-Please make sure all steps described above work as expected before proceeding. Ensure also that you have an account on grand-challenge.org and that you are a [verified user](https://grand-challenge.org/documentation/account-verification/) there.
+ ### Submit your algorithm  
+Please make sure all steps described above work as expected before proceeding.  Ensure also that you have an account on grand-challenge.org and that you are a [verified user](https://grand-challenge.org/documentation/account-verification/) there.
+ 
+ Once you test that your docker container runs as expected, you are ready to submit! Let us walk you through the steps you need to follow to upload and submit your algorithm to [NODE21](https://node21.grand-challenge.org/) detection track:
 
-<!---  
- <a name="submit"/>
+1. In order to submit your algorithm, you first have to create an algorithm entry for your docker container [here](https://grand-challenge.org/algorithms/create/).
+   * Please choose a title and description for your algorithm and enter the modalities and structure information as in the example below.
+      ![alt text](images/create_alg_gen1.png)
 
-    
- ### Submit your algorithm
- You could submit your algorithm in two different ways: by uploading your docker container (your .tar.gz file), or by submitting your github repository.
- Once you test that your docker container runs as expected, you are ready to submit! Let us walk you through the steps you need to follow to upload and submit your algorithm to [NODE21](https://node21.grand-challenge.org/) generation track:
-
-1. In order to submit your docker container, you first have to create an algorithm entry for your docker container [here](https://grand-challenge.org/algorithms/create/).
-   * Please choose a title for your algorithm and add a (squared image) logo. Enter the modalities and structure information as in the example below.
-      ![alt text](/images/gen_algorithm_description.PNG)
-
-    * Scrolling down the page, you will see that you need to enter further information:
-    * Enter the URL of your GitHub repository which must be public, contain all your code and an [Apache 2.0 license](https://www.apache.org/licenses/LICENSE-2.0). When entering the repo name in algorithm-creation do not enter a full URL, only the part that comes after github.com/. For example if your github url is https://github.com/ecemlago/node21_generation_baseline/, please enter the field as *ecemlago/node21_generation_baseline*.
-    *  For the interfaces, please select *Generic Medical Image (Image)* and *Nodules (Multiple 2D Bounding Boxes)* as Inputs and *Generic Medical Image (Image)* as Outputs. 
-    *  Do not forget to pick the workstation as *Viewer CIRRUS Core (Public)*. 
-      ![alt text](images/alg_interface_gen.PNG)
+   * Scrolling down the page, you will see that you need to enter further information:
+   * Select a logo to represent your algorithm (preferably square image)
+   * For the interfaces, please select *Generic Medical Image (Image)* and *Nodules (Multiple 2D Bounding Boxes)* as Inputs and *Generic Medical Image (Image)* as Outputs. 
+   * Do not forget to pick the workstation *Viewer CIRRUS Core (Public)*.  
+   
+   ![alt text](images/create_alg_gen2.png)
   
-2. After saving it, you can either upload your docker container (.tar.gaz) or you can let grand-challenge build your algorithm container from your github repository.
+   * At the bottom of the page, indicate that you would like your Docker image to use GPU and how much memory it needs
+   ![alt text](images/container_img_config.PNG)
+   * Don't forget to click the Save button at the bottom of the page to create your algorithm.  You will then see your algorithm page as shown below.
+   ![alt text](images/create_alg_gen3.png)
+   
+2. After creating your algorithm, you need to attach a docker container to it so it becomes functional.  There are 2 ways to do this:
+   * OPTION 1: If you already built the tar.gz file as described above then you can upload this file directly
+   * OPTION 2: You can provide your repository details and the file will be built by Grand-Challenge from your repository code. Please bear in mind that the root of the github repository must contain the dockerfile, the licence, the gitattributes in order to build the image for you. Further, you must have admin rights to the repository so that you can give permission for Grand Challenge to install an app there.
+   
+   For either option, first choose "Containers" on the left menu of your screen as shown below, then follow the detailed steps for your option below.
+   ![alt text](images/create_alg_gen4.png)
+   
+    **OPTION 1:** If you would like to upload your docker container directly, click on "upload a Container" button, and upload your tar.gz file. 
+    You can also later overwrite your container by uploading a new one (ie. you should not create a whole new algorithm if you make some code changes):
+    Please note that it can take a while until the container becomes active. (Status will change from "Ready: False" to "Active")  Check back later or refresh the URL after some time.
 
-     OPTION 1: If you would like to upload your docker container directly, please click on "upload a Container" button, and upload your container. You can also later overwrite your container by uploading a new one. That means that when you make changes to your algorithm, you could overwrite your container and submit the updated version of your algorithm to node21:
-    ![alt text](images/gen_algorithm_uploadcontainer.PNG)
+    **OPTION 2:** If you would like to submit your repository and let grand-challenge build the docker image for you, click on "Link Github Repo".
+    Your repo will be listed in the dropdown box only if it has the Grand-Challenge app already installed.  
+    Usually this is not the case to begin with, so you should click on "link a new Github Repo".  
+    This will guide you through the installation of the Grand-challenge app in your repository.
+    ![alt text](images/add_repo_det.png)
     
-    OPTION 2: If you would like to submit your repository and let grand-challenge build the docker image for you, please click on "Link github repo" and select your repository to give repository access to grand-challenge to build your algorithm. Once this is done, you should tag the repo to kick off the build process. Please bear in mind that, the root of the github repository must contain the dockerfile, the licence, the gitattributes in order to build the image for you. Further, you must have admin rights to the repository so that you can give permission for GC to install an app there.
-    ![alt text](images/automated_build_gen.PNG)
+    After the installation of the app in your repository is complete you should be automatically returned to the Grand Challenge page shown above, 
+    where you will find your repository now in the dropdown list.
+    (In case you are not automatically returned there you can [find your algorithm](https://grand-challenge.org/algorithms/) and click "Link Github Repo" again)
+    Select your repository from the dropdown list and click "Save"
+    ![alt text](images/add_repo_gen3.png)
 
-3. OPTIONAL: Please note that it can take a while (several minutes) until the container becomes active. Once it becomes active, we suggest that you try out the algorithm to verify everything works as expected. For this, please click on *Try-out Algorithm* tab, and upload a *Generic Medical Image* and paste your *nodules.json* file. To paste your nodules.json content, please click on tree and select "code" then paste the content of your json file. You could upload the image and nodules.json given in the test folder which represents how test data would look like during evaluation.
-  ![alt text](images/gen_algorithm_tryout.PNG)
-4. OPTIONAL: You could look at the results of your algorithm: click on the *Results*, and *Open Result in Viewer* to visualize the results. You would be directed to CIRRUS viewer, and the results will be visualized with the predicted bounding boxes on chest x-ray images as below. You could move to the next and previous slice (slice is a chest x-ray in this case) by clicking on the up and down arrow in the keyboard.
-    ![alt text](images/gen_algorithm_results.PNG)
+    Finally, you need to tag your repository, this will trigger Grand-Challenge to start building the docker container.
+    Please note that it can take a little while for Grand-Challenge to start building your container, and some further time to complete the build.  Check back later or refresh the URL after some time.
+      
+3. **Both OPTION1 and OPTION2 can continue from here:** Once your algorithm is ready to run you will see the status "Active" beside it as shown below
+    ![alt text](images/build_complete_gen.png)
+    Once it becomes active, we suggest that you try out the algorithm to verify everything works as expected. For this, please click on *Try-out Algorithm* tab, and upload a *Generic Medical Image*. You could upload the image provided here in the test folder since it is a 3D image (CXRs are stacked together) which is the expected format.
+  ![alt text](images/algorithm_tryout.PNG)
+   OPTIONAL: You could look at the results of your algorithm: click on the *Results*, and *Open Result in Viewer* to visualize the results. You would be directed to CIRRUS viewer, and the results will be visualized with the predicted bounding boxes on chest x-ray images as below. You could move to the next and previous slice (slice is a chest x-ray in this case) by clicking on the up and down arrow in the keyboard.
+     ![alt text](images/algorithm_results.PNG)
 
-5. Go to the [NODE21](https://node21.grand-challenge.org/evaluation/generation/submissions/create/) submission page, and submit your solution to the generation track by choosing your algorithm.
-   ![alt text](images/gen_alg_submission.PNG)
--->
+4. You have created and tested your Grand-Challenge Algorithm!!  The last step is to submit your algorithm to the NODE21 challenge to have it evaluated and get your spot on the leaderboard!
+   Go to the [NODE21 submission page](https://node21.grand-challenge.org/evaluation/challenge/submissions/create/), and click on the track where you want to participate
+   ("Generation Track Experimental Test Set" OR "Generation Track Final Test Set").  
+   **Only one submission to the Final Test Set is allowed so please use the Experimental Test Set for your first testing efforts!**
+   Choose your algorithm name from the dropdown list and click on "Save"
+5. Allow some time for the evaluation to be processed.  It may not start immediately depending on what hardware resources are available at the time. 
+   Your result will appear on the [leaderboard page](https://node21.grand-challenge.org/evaluation/challenge/leaderboard/) (make sure to select the track where you submitted).
+   If you do not see your result after 24 hours please contact us via email or the forum and provide your algorithm name and date/time you submitted in Central European Time.
+   
 
+### Re-submitting if you make improvements
+If you already have an algorithm on Grand-Challenge you do NOT need to make a new one whenever you have made some improvements or changes to your code. 
+To re-submit, first just update your existing algorithm as follows:
 
+If you used **OPTION 1** in previous steps and uploaded a tar.gz file then you can now upload a new tar.gz file which will overwrite the old one.  Find your algorithm at [https://grand-challenge.org/algorithms/](https://grand-challenge.org/algorithms/).  Click on "Containers", and "upload a container" as before.  Allow some time for the algorithm to become "Active" as previously. 
 
+If you used **OPTION 2** in previous steps and allowed Grand-Challenge to build from your repository then a new build will start automatically whenever you tag your repository.  So just tag the repository and allow some time for the new build to start and complete, it will then show the "Active" label.
 
+**OPTION 1 AND OPTION 2**:  Whichever option you use, once your algorithm is updated you need to resubmit to NODE21, this does not happen automatically!  Visit the [NODE21 submission page](https://node21.grand-challenge.org/evaluation/challenge/submissions/create/) and proceed to submit to your chosen track as before. 
 
