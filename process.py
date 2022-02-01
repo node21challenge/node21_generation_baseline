@@ -18,6 +18,11 @@ import random
 from random import randrange
 import os
 
+'''
+NODE21 template nodule generation codebase
+Author: Ecem Sogancioglu
+email: ecemsogancioglu@gmail.com
+'''
 # This parameter adapts the paths between local execution and execution in docker. You can use this flag to switch between these two modes.
 # For building your docker, set this parameter to True. If False, it will run process.py locally for test purposes.
 execute_in_docker = True
